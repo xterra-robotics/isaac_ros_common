@@ -191,23 +191,23 @@ apt-get update && apt-get install -y \
     ros-humble-control-msgs \
     ros-humble-controller-manager \
     ros-humble-geometric-shapes \
-    ros-humble-gripper-controllers \
+    # ros-humble-gripper-controllers \
     ros-humble-interactive-markers \
     ros-humble-joint-state-broadcaster \
     ros-humble-joint-state-publisher \
     ros-humble-joint-trajectory-controller \
     ros-humble-joy \
     ros-humble-launch-param-builder \
-    ros-humble-moveit \
-    ros-humble-moveit-common \
-    ros-humble-moveit-configs-utils \
-    ros-humble-moveit-core \
-    ros-humble-moveit-msgs \
-    ros-humble-moveit-ros-perception \
-    ros-humble-moveit-ros-planning \
-    ros-humble-moveit-ros-planning-interface \
-    ros-humble-moveit-servo \
-    ros-humble-moveit-visual-tools \
+    # ros-humble-moveit \
+    # ros-humble-moveit-common \
+    # ros-humble-moveit-configs-utils \
+    # ros-humble-moveit-core \
+    # ros-humble-moveit-msgs \
+    # ros-humble-moveit-ros-perception \
+    # ros-humble-moveit-ros-planning \
+    # ros-humble-moveit-ros-planning-interface \
+    # ros-humble-moveit-servo \
+    # ros-humble-moveit-visual-tools \
     ros-humble-pluginlib \
     ros-humble-py-binding-tools \
     ros-humble-robot-state-publisher \
@@ -225,60 +225,59 @@ apt-get update && apt-get install -y \
     ros-humble-ur-client-library \
     ros-humble-ur-controllers \
     ros-humble-ur-description \
-    ros-humble-ur-moveit-config \
-    ros-humble-ur-robot-driver \
+    # ros-humble-ur-moveit-config \
     ros-humble-ur-msgs \
     ros-humble-xacro
 
 # Install various moveit_resources packages from source.
-RUN --mount=type=cache,target=/var/cache/apt \
-    mkdir -p ${ROS_ROOT}/src && cd ${ROS_ROOT}/src \
-    && git clone https://github.com/ros-planning/moveit_resources.git -b humble \
-    && cd moveit_resources && source ${ROS_ROOT}/setup.bash \
-    && cd fanuc_description && bloom-generate rosdebian && fakeroot debian/rules binary \
-    && cd .. && apt-get install -y ./*.deb && rm *.deb \
-    && cd fanuc_moveit_config && bloom-generate rosdebian && fakeroot debian/rules binary \
-    && cd .. && apt-get install -y ./*.deb && rm *.deb \
-    && cd panda_description && bloom-generate rosdebian && fakeroot debian/rules binary \
-    && cd .. && apt-get install -y ./*.deb && rm *.deb \
-    && cd panda_moveit_config && bloom-generate rosdebian && fakeroot debian/rules binary \
-    && cd .. && apt-get install -y ./*.deb && rm *.deb \
-    && cd pr2_description && bloom-generate rosdebian && fakeroot debian/rules binary \
-    && cd .. && apt-get install -y ./*.deb && rm *.deb \
-    && cd moveit_resources && bloom-generate rosdebian && fakeroot debian/rules binary \
-    && cd .. && apt-get install -y ./*.deb && rm *.deb
+# RUN --mount=type=cache,target=/var/cache/apt \
+#     mkdir -p ${ROS_ROOT}/src && cd ${ROS_ROOT}/src \
+#     && git clone https://github.com/ros-planning/moveit_resources.git -b humble \
+#     && cd moveit_resources && source ${ROS_ROOT}/setup.bash \
+#     && cd fanuc_description && bloom-generate rosdebian && fakeroot debian/rules binary \
+#     && cd .. && apt-get install -y ./*.deb && rm *.deb \
+#     && cd fanuc_moveit_config && bloom-generate rosdebian && fakeroot debian/rules binary \
+#     && cd .. && apt-get install -y ./*.deb && rm *.deb \
+#     && cd panda_description && bloom-generate rosdebian && fakeroot debian/rules binary \
+#     && cd .. && apt-get install -y ./*.deb && rm *.deb \
+#     && cd panda_moveit_config && bloom-generate rosdebian && fakeroot debian/rules binary \
+#     && cd .. && apt-get install -y ./*.deb && rm *.deb \
+#     && cd pr2_description && bloom-generate rosdebian && fakeroot debian/rules binary \
+#     && cd .. && apt-get install -y ./*.deb && rm *.deb \
+#     && cd moveit_resources && bloom-generate rosdebian && fakeroot debian/rules binary \
+#     && cd .. && apt-get install -y ./*.deb && rm *.deb
 
 # Install MoveIt task constructor from source.  The "demo" package depends on moveit_resources_panda_moveit_config,
 # installed from source above.
-RUN --mount=type=cache,target=/var/cache/apt \
-    mkdir -p ${ROS_ROOT}/src && cd ${ROS_ROOT}/src \
-    && git clone https://github.com/ros-planning/moveit_task_constructor.git -b humble \
-    && cd moveit_task_constructor && source ${ROS_ROOT}/setup.bash \
-    && cd msgs && bloom-generate rosdebian && fakeroot debian/rules binary \
-    && cd ../ && apt-get install -y ./*.deb && rm ./*.deb \
-    && cd rviz_marker_tools && bloom-generate rosdebian && fakeroot debian/rules binary \
-    && cd ../ && apt-get install -y ./*.deb && rm ./*.deb \
-    && cd core && bloom-generate rosdebian && fakeroot debian/rules binary DEB_BUILD_OPTIONS=nocheck \
-    && cd ../ && apt-get install -y ./*.deb && rm ./*.deb \
-    && cd capabilities && bloom-generate rosdebian && fakeroot debian/rules binary DEB_BUILD_OPTIONS=nocheck \
-    && cd ../ && apt-get install -y ./*.deb && rm ./*.deb \
-    && cd visualization && bloom-generate rosdebian && fakeroot debian/rules binary DEB_BUILD_OPTIONS=nocheck \
-    && cd ../ && apt-get install -y ./*.deb && rm ./*.deb \
-    && cd demo && bloom-generate rosdebian && fakeroot debian/rules binary DEB_BUILD_OPTIONS=nocheck \
-    && cd ../ && apt-get install -y ./*.deb && rm ./*.deb
+# RUN --mount=type=cache,target=/var/cache/apt \
+#     mkdir -p ${ROS_ROOT}/src && cd ${ROS_ROOT}/src \
+#     && git clone https://github.com/ros-planning/moveit_task_constructor.git -b humble \
+#     && cd moveit_task_constructor && source ${ROS_ROOT}/setup.bash \
+#     && cd msgs && bloom-generate rosdebian && fakeroot debian/rules binary \
+#     && cd ../ && apt-get install -y ./*.deb && rm ./*.deb \
+#     && cd rviz_marker_tools && bloom-generate rosdebian && fakeroot debian/rules binary \
+#     && cd ../ && apt-get install -y ./*.deb && rm ./*.deb \
+#     && cd core && bloom-generate rosdebian && fakeroot debian/rules binary DEB_BUILD_OPTIONS=nocheck \
+#     && cd ../ && apt-get install -y ./*.deb && rm ./*.deb \
+#     && cd capabilities && bloom-generate rosdebian && fakeroot debian/rules binary DEB_BUILD_OPTIONS=nocheck \
+#     && cd ../ && apt-get install -y ./*.deb && rm ./*.deb \
+#     && cd visualization && bloom-generate rosdebian && fakeroot debian/rules binary DEB_BUILD_OPTIONS=nocheck \
+#     && cd ../ && apt-get install -y ./*.deb && rm ./*.deb \
+#     && cd demo && bloom-generate rosdebian && fakeroot debian/rules binary DEB_BUILD_OPTIONS=nocheck \
+#     && cd ../ && apt-get install -y ./*.deb && rm ./*.deb
 
 # MoveIt 2's hybrid planning package depends on moveit_resources_panda_moveit_config, installed from source above.
-RUN --mount=type=cache,target=/var/cache/apt \
-apt-get update && apt-get install -y \
-    ros-humble-moveit-hybrid-planning
+# RUN --mount=type=cache,target=/var/cache/apt \
+# apt-get update && apt-get install -y \
+#     ros-humble-moveit-hybrid-planning
 
 # Install moveit2_tutorials from source (depends on moveit_hybrid_planning).
-RUN --mount=type=cache,target=/var/cache/apt \
-    mkdir -p ${ROS_ROOT}/src && cd ${ROS_ROOT}/src \
-    && git clone https://github.com/ros-planning/moveit2_tutorials.git -b humble \
-    && cd moveit2_tutorials && source ${ROS_ROOT}/setup.bash \
-    && bloom-generate rosdebian && fakeroot debian/rules binary \
-    && cd ../ && apt-get install -y ./*.deb && rm ./*.deb
+# RUN --mount=type=cache,target=/var/cache/apt \
+#     mkdir -p ${ROS_ROOT}/src && cd ${ROS_ROOT}/src \
+#     && git clone https://github.com/ros-planning/moveit2_tutorials.git -b humble \
+#     && cd moveit2_tutorials && source ${ROS_ROOT}/setup.bash \
+#     && bloom-generate rosdebian && fakeroot debian/rules binary \
+#     && cd ../ && apt-get install -y ./*.deb && rm ./*.deb
 
 # Install paho-mqtt for isaac_ros_mission_client
 RUN python3 -m pip install -U \
@@ -331,3 +330,8 @@ RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" | s
 # Store list of packages (must be last)
 RUN mkdir -p /opt/nvidia/isaac_ros_dev_base && dpkg-query -W | sort > /opt/nvidia/isaac_ros_dev_base/ros2_humble-end-packages.csv
 
+# Package list for ISAAC ROS VSLAM and NVBLOX
+RUN rosdep install --from-paths ${ISAAC_ROS_WS}/src/isaac_ros_visual_slam --ignore-src -y \
+    && sudo apt update \
+    && rosdep update \
+    && rosdep install -i -r --from-paths /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/ --rosdistro humble -y

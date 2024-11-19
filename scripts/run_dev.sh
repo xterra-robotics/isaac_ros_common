@@ -286,10 +286,16 @@ docker run -it --rm \
     --ipc=host \
     ${DOCKER_ARGS[@]} \
     -v $ISAAC_ROS_DEV_DIR:/workspaces/isaac_ros-dev \
+    -e LIBGL_ALWAYS_SOFTWARE=1 \
+    -e QT_X11_NO_MITSHM=1 \
     -v /etc/localtime:/etc/localtime:ro \
     --name "$CONTAINER_NAME" \
     --runtime nvidia \
     --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
     --workdir /workspaces/isaac_ros-dev \
+    --device=/dev/ttyUSB0:/dev/ttyUSB0 \
+    --device-cgroup-rule='c 81:* rmw' \
+    --device-cgroup-rule='c 189:* rmw' \
     $BASE_NAME \
     /bin/bash
+# TODO: add commands for source ros2 and launching node as well
