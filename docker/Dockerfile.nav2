@@ -1,0 +1,36 @@
+# Copyright (c) 2023, NVIDIA CORPORATION.  All rights reserved.
+#
+# NVIDIA CORPORATION and its licensors retain all intellectual property
+# and proprietary rights in and to this software, related documentation
+# and any modifications thereto.  Any use, reproduction, disclosure or
+# distribution of this software and related documentation without an express
+# license agreement from NVIDIA CORPORATION is strictly prohibited.
+
+# Dockerfile for setting up Nav2 environment
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+
+
+# Package list for ISAAC ROS VSLAM and NVBLOX
+# RUN bash -c "source ${ISAAC_ROS_WS}/install/setup.bash \
+#     && rosdep install --from-paths ${ISAAC_ROS_WS}/src/isaac_ros_visual_slam --ignore-src -y \
+#     && sudo apt update \
+#     && rosdep update \
+#     && rosdep install -i -r --from-paths /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/ --rosdistro humble -y
+# RUN --mount=type=cache,target=/var/cache/apt \
+#    bash -c "source /workspaces/isaac_ros-dev/install/setup.bash && \
+#    rosdep install --from-paths ${ISAAC_ROS_WS}/src/isaac_ros_visual_slam --ignore-src -y && \
+#    apt-get update && \
+#    rosdep update && \
+#    rosdep install -i -r --from-paths ${ISAAC_ROS_WS}/src/isaac_ros_nvblox --rosdistro humble -y"
+WORKDIR /workspaces/isaac_ros-dev
+
+# ...before RUN command
+COPY sensor fusion techniques. ${ISAAC_ROS_WS}/src/
+# Add volume mount
+VOLUME /workspaces/isaac_ros-dev
+
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update && \
+    rosdep update && \
+    DEBIAN_FRONTEND=noninteractive rosdep install --from-paths src --ignore-src -y

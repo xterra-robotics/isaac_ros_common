@@ -176,7 +176,8 @@ if [[ ! -z $CONFIG_SKIP_IMAGE_BUILD ]]; then
     SKIP_IMAGE_BUILD=1
 fi
 
-BASE_NAME="isaac_ros_dev-$PLATFORM"
+# BASE_NAME="isaac_ros_dev-$PLATFORM"
+BASE_NAME="isaac_ros_nav"
 if [[ ! -z "$CONFIG_CONTAINER_NAME_SUFFIX" ]] ; then
     BASE_NAME="$BASE_NAME-$CONFIG_CONTAINER_NAME_SUFFIX"
 fi

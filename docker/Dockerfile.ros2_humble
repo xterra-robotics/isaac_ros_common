@@ -329,9 +329,3 @@ RUN echo "source /usr/share/colcon_argcomplete/hook/colcon-argcomplete.bash" | s
 
 # Store list of packages (must be last)
 RUN mkdir -p /opt/nvidia/isaac_ros_dev_base && dpkg-query -W | sort > /opt/nvidia/isaac_ros_dev_base/ros2_humble-end-packages.csv
-
-# Package list for ISAAC ROS VSLAM and NVBLOX
-RUN rosdep install --from-paths ${ISAAC_ROS_WS}/src/isaac_ros_visual_slam --ignore-src -y \
-    && sudo apt update \
-    && rosdep update \
-    && rosdep install -i -r --from-paths /workspaces/isaac_ros-dev/src/isaac_ros_nvblox/ --rosdistro humble -y
