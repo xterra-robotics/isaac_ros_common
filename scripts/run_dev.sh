@@ -177,7 +177,7 @@ if [[ ! -z $CONFIG_SKIP_IMAGE_BUILD ]]; then
 fi
 
 # BASE_NAME="isaac_ros_dev-$PLATFORM"
-BASE_NAME="isaac_ros_nav"
+BASE_NAME="isaac_ros_nav_rt"
 if [[ ! -z "$CONFIG_CONTAINER_NAME_SUFFIX" ]] ; then
     BASE_NAME="$BASE_NAME-$CONFIG_CONTAINER_NAME_SUFFIX"
 fi
@@ -241,7 +241,7 @@ if [[ -n $SSH_AUTH_SOCK ]]; then
 fi
 
 if [[ $PLATFORM == "aarch64" ]]; then
-    DOCKER_ARGS+=("-e NVIDIA_VISIBLE_DEVICES=nvidia.com/gpu=all,nvidia.com/pva=all")
+    DOCKER_ARGS+=("-e NVIDIA_VISIBLE_DEVICES=all")
     DOCKER_ARGS+=("-v /usr/bin/tegrastats:/usr/bin/tegrastats")
     DOCKER_ARGS+=("-v /tmp/:/tmp/")
     DOCKER_ARGS+=("-v /usr/lib/aarch64-linux-gnu/tegra:/usr/lib/aarch64-linux-gnu/tegra")
@@ -281,22 +281,32 @@ print_info "Running $CONTAINER_NAME"
 if [[ $VERBOSE -eq 1 ]]; then
     set -x
 fi
+
 docker run -it --rm \
     --privileged \
     --network host \
     --ipc=host \
     ${DOCKER_ARGS[@]} \
     -v $ISAAC_ROS_DEV_DIR:/workspaces/isaac_ros-dev \
+    -v /run/udev:/run/udev:ro \
     -e LIBGL_ALWAYS_SOFTWARE=1 \
     -e QT_X11_NO_MITSHM=1 \
     -v /etc/localtime:/etc/localtime:ro \
+    -v /dev/bus/usb:/dev/bus/usb \
+    -v /etc/udev/rules.d:/etc/udev/rules.d:ro \
     --name "$CONTAINER_NAME" \
     --runtime nvidia \
     --entrypoint /usr/local/bin/scripts/workspace-entrypoint.sh \
     --workdir /workspaces/isaac_ros-dev \
     --device=/dev/ttyUSB0:/dev/ttyUSB0 \
+    --group-add video \
+    --group-add plugdev \
     --device-cgroup-rule='c 81:* rmw' \
     --device-cgroup-rule='c 189:* rmw' \
+    --device-cgroup-rule='c 29:* rmw' \
+    --device-cgroup-rule='c 180:* rmw' \
+    --device-cgroup-rule='c 226:* rmw' \
+    --device=/dev/video* \
     $BASE_NAME \
     /bin/bash
 # TODO: add commands for source ros2 and launching node as well
